@@ -4,17 +4,54 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="">
+    <script src='node modules/angular/angular.js'></script>
+    <script src='node modules/angular/angular-route.js'></script>
 </head>
 
 <body ng-app='todo'>
-    <form ng-submit='addTask()'>
-        <input type="text" name='task' ng-model='task'>
-        <input type="submit">
-    </form>
-    <div ng-repeat='task in tasks'><span ng-click='completeTask(task)'>&#10004;</span>{{ task }}<span ng-click='removeTask(task)'>&#x2717;</span></div>
-
+    <ng-view/>
+    <script type="text/ng-template" id='todoApp'>
+        <div id='todoList'>
+            <header>
+                <form ng-submit='addTask()'>
+                    <input type="text" ng-model='newTask' placeholder="Enter Todo Task" autofocus>
+                </form>
+            </header>
+            <div id='tasks' ng-show='tasks.length'>
+                <input type="checkbox" id="markAll" ng-model='allDone' ng-click='markAll(allDone)'>
+                <ul id='tasks'>
+                    <li ng-repeat='task in tasks'>
+                        <div class='view'>
+                            <input type="checkbox" ng-model='task.completed' ng-change='toggleCompleted(task)'>
+                            <label>{{ task.title }}</label>
+                            <button id='remove' ng-click='removeTask(task)'></button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <footer ng-show='tasks.length'>
+                <span id='taskCount'>{{remainingTasks}}
+            		<ng-pluralize count='remainingTasks' when='{ one: "item left", other: "items left"}'></ng-pluralize>
+        		</span>
+                <ul id='filters'>
+                    <li>
+                        <a ng-class='selected: status==""' href='/'>All</a>
+                    </li>
+                    <li>
+                        <a ng-class='selected: status=="active"' href='/'>All</a>
+                    </li>
+                    <li>
+                        <a ng-class='selected: status=="completed"' href='/'>All</a>
+                    </li>
+                </ul>
+                <button id='clearCompleted' ng-click='clearCompleted()'>Clear Completed</button>
+            </footer>
+        </div>
+    </script>
     <script src='/app.js'></script>
     <script src='/controller/controller.js'></script>
     <script src='/directives/directives.js'></script>
     <script src='/services/service.js'></script>
 </body>
+
+</html>
