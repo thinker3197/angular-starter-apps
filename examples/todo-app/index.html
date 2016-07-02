@@ -3,3 +3,18 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="">
+</head>
+
+<body ng-app='todo'>
+    <form ng-submit='addTask()'>
+        <input type="text" name='task' ng-model='task'>
+        <input type="submit">
+    </form>
+    <div ng-repeat='task in tasks'><span ng-click='completeTask(task)'>&#10004;</span>{{ task }}<span ng-click='removeTask(task)'>&#x2717;</span></div>
+
+    <script src='/app.js'></script>
+    <script src='/controller/controller.js'></script>
+    <script src='/directives/directives.js'></script>
+    <script src='/services/service.js'></script>
+</body>
