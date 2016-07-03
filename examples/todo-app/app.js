@@ -1,4 +1,4 @@
-angular.module('myApp',['ngRoute'])
+angular.module('todo',['ngRoute'])
 		.config(function($routeProvider){
 			'use strict';
 
