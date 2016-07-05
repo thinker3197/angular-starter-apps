@@ -1,23 +1,32 @@
-angular.module('todo',['ngRoute'])
-		.config(function($routeProvider){
-			'use strict';
+/*global angular */
 
-			var routeConfig = {
-				controller: 'todoCtrl',
-				templateUrl: 'todoApp.html',
-				resolve: {
-					store: function(todoStorage) {
-						return todoStorage.then(function(module){
-							module.get();
-							return module;
-						});
-					}
+/**
+ * The main TodoMVC app module
+ *
+ * @type {angular.Module}
+ */
+angular.module('todomvc', ['ngRoute'])
+	.config(function ($routeProvider) {
+		'use strict';
+
+		var routeConfig = {
+			controller: 'TodoCtrl',
+			templateUrl: 'todomvc-index.html',
+			resolve: {
+				store: function (todoStorage) {
+					// Get the correct module (API or localStorage).
+					return todoStorage.then(function (module) {
+						module.get(); // Fetch the todo records in the background.
+						return module;
+					});
 				}
-			};
+			}
+		};
 
-			$routeProvider.when('/',routeConfig)
-						  .when('/:status',routeConfig)
-						  .otherwise({
-						  	redirectTo: '/'
-						  });
-		});
+		$routeProvider
+			.when('/', routeConfig)
+			.when('/:status', routeConfig)
+			.otherwise({
+				redirectTo: '/'
+			});
+	});
